@@ -5,3 +5,25 @@
     padding-top:150px;
     padding-left:10px;
 }
+.sidebar {
+    background: grey;
+    opacity: 0.5;
+}
+body {
+    background: lightgrey;
+    
+}
+.ui.cards {
+    justify-content: end;
+    padding-top: 109px;
+    height: 535px;
+}
+
+h1 {
+    font-size: 46px;
+    padding: 5px;
+    margin: -38px;
+}
+header {
+    text-align: center;
+}
