@@ -1,112 +1,117 @@
+window.onload = function (){
 var apiKey = "2c3ba4a73398f4ad9d8954ec20141c02";
+var cityName = document.getElementById('cityInput');
+var submit = document.getElementById('citySubmit');
 
+console.log(cityName);
+console.log(submit);
 
+forecastCity = "";
 
-
-
-let cityName = document.querySelector('.textInput');
-let searchBtn = document.querySelector('.submitSearch');
-let latitude = [];
-let longitude = [];
-let userUrl = [];
-
-
-searchBtn.addEventListener('click', function (event) {
-    event.preventDefault();
-    let userCity = cityName.value;
-    let Url = "http://api.openweathermap.org/geo/1.0/direct?q="+userCity+"&limit=1&appid=2c3ba4a73398f4ad9d8954ec20141c02";
-    latitude = [];
-    longitude = [];
-    fetch(Url)
+getWeather();
+fiveDayForecast();
+function getWeather (){
+  submit.addEventListener('click', ()=>{
+    let city = cityName.value;
+    
+    console.log(city);
+    fetch('https://api.openweathermap.org/data/2.5/weather?q='+city+'&units=metric&appid='+apiKey)
     .then(response => response.json())
-    .then(data =>  {
-        for(var i=0; i < data.length; i++) {
-        console.log(data[0].lat, data[0].lon, "Just making sure we are working correctly");
-        latitude.push(data[0].lat);
-        longitude.push(data[0].lon);
-        console.log(Url);
-        }
-            let userCountry = "";
-    let weatherUrl = "http://api.openweathermap.org/data/2.5/forecast?lat="+latitude[0]+"&lon="+longitude[0]+"&units=metric&appid=2c3ba4a73398f4ad9d8954ec20141c02"
-    let Temp = [];
-    let feelsLike = [];
-        fetch(weatherUrl)
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-                console.log(weatherUrl);
-
-
-                feelsLike = [];
-                Temp = [];
-                for (var i = 0; i < data.list.length; i++) {
-                    console.log(data.list[i].main.feels_like + " Feels like");
-                    feelsLike.push(data.list[i].main.feels_like);
-                    Temp.push(data.list[i].main.temp);
-                    var information = document.querySelectorAll('.description');
-                    for(var i = 0; i <information.length; i++){
-                    information[i].innerHTML = Temp;
-                
-                
-
-                cityDisp = [];
-                var cardInfo = document.querySelectorAll('.header');
-                for (var i = 0; i < data.city.name.length; i++) {
-                    cityDisp.push(data.city.name);
-                    cardInfo[i].innerHTML = cityDisp[i];
-
-                }
-                console.log(cityDisp[i] + " This works");
-
-                var cardInfo = document.querySelectorAll('.header');
-                
-                for (var i = 0; i < cardInfo.length; i++) {
-                    cardInfo[i].innerHTML = cityDisp[i];
-                }
-                
-                console.log(Temp);
-                console.log(feelsLike);
-            }}
-            })
-
-        userUrl.push(Url);
-
-
-
-
+    .then(data=> {
+        console.log(data);
+        var lat = data.coord.lat;
+        var lon = data.coord.lon
+        console.log(lat);
+        console.log(lon);
+        // Adds City Name to the card title for current weather 
+      let currentCityWeather = document.querySelector('.card-title');
+      currentCityWeather.textContent = data.name;
+      // Adds current temp 
+      let currentTemp = document.querySelector('.tempNow');
+      currentTemp.textContent = 'Current Temp - ' + data.main.temp;
+      // Adds weather icon for current temp 
+      let weatherIcon = document.getElementById('currentImg');
+      let icon = data.weather[0].icon;
+      console.log(icon);
+      let iconUrl = "https://openweathermap.org/img/wn/" + icon + "@2x.png"
+      weatherIcon.src = iconUrl;
+      // Add datas to cards
+      let currentDt = data.dt;
+      let date = new Date(currentDt*1000);
+      let formattedDate = date.toLocaleDateString();
+      console.log(formattedDate);
+      let dateBox = document.querySelector('.currentDate');
+      dateBox.textContent = formattedDate;
+      
+    }
+    )
+    .catch(error => {
+      console.log(error);
     })
 
-
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*DROPDOWN MENU-------------------*/
-$('.ui.selection.dropdown')
-  .dropdown({
-    clearable: true
   })
-;
-$('.ui.inline.dropdown')
-  .dropdown({
-    clearable: true,
-    placeholder: 'any'
-  })
-;
-$('.ui.dropdown').dropdown({
-    onChange: function(value, text, $selectedItem) {
-        console.log("Selected country: " + value);
-    }
-})
+  }
+
+  function fiveDayForecast(){
+        submit.addEventListener('click', ()=>{
+          const city = cityName.value;
+          fetch('https://api.openweathermap.org/data/2.5/forecast?q='+city+'&units=metric&appid='+apiKey)
+          .then(response => response.json())
+          .then (data => {
+            console.log(data);
+            console.log(data.list[8].dt);
+            console.log(data.list[16].dt);
+            console.log(data.list[24].dt);
+            console.log(data.list[32].dt);
+            const Days = {
+              day1: data.list[0].dt,
+              day2: data.list[8].dt,
+              day3: data.list[16].dt,
+              day4: data.list[24].dt,
+              day5: data.list[32].dt,
+              
+            };
+           
+           
+            // NOT WORKING YET - CREATING ICONS FOR WEATHER BOXES
+            const cardDates = document.querySelectorAll('.cardDate');
+            for (var i = 0; i < cardDates.length; i++){
+              const current = Days[Object.keys(Days)[i]];
+              let date = new Date(current * 1000);
+              let formattedDate =date.toLocaleDateString();
+              cardDates[i].textContent = formattedDate;
+            }
+            const forecastIcon = document.createElement('img');
+            forecastIcon.className += ("Icons");
+            icons = data.list[i].weather[0].icon;
+            const iconsUrl = "https://openweathermap.org/img/wn/"+icons+"@2x.png";
+            forecastIcon.src = iconsUrl;
+            forecastIcon.append(cardDates);
+            
+          })
+        })
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

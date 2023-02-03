@@ -1,29 +1,22 @@
-.ui.cards {
-    justify-content:end;
+html, body{
+    background-image: linear-gradient(to right bottom, #e5cdc1, #e6cabe, #e7c7bc, #e8c3ba, #e9c0b8);
 }
-.searchInput {
-    padding-top:150px;
-    padding-left:10px;
+div#weatherCards {
+    justify-content: center;
+       
 }
-.sidebar {
-    background: grey;
-    opacity: 0.5;
-}
-body {
-    background: lightgrey;
-    
-}
-.ui.cards {
-    justify-content: end;
-    padding-top: 109px;
-    height: 535px;
-}
+.card-body.card.mb-3.card {
+background-color:lightgrey
 
-h1 {
-    font-size: 46px;
-    padding: 5px;
-    margin: -38px;
 }
-header {
-    text-align: center;
+.card {
+    border: 3px  solid black;
+}
+.card.mb-3 {
+    justify-content: center;
+    align-items: center;
+    margin:5px;
+    padding: 5px;
+    background: lightslategray;
+    
 }
