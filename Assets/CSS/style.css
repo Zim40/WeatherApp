@@ -1,22 +1,28 @@
 html, body{
     background-image: linear-gradient(to right bottom, #e5cdc1, #e6cabe, #e7c7bc, #e8c3ba, #e9c0b8);
+    overflow: hidden;
 }
 div#weatherCards {
     justify-content: center;
+    margin: 0;
+    padding: 0;
+   
        
 }
-.card-body.card.mb-3.card {
-background-color:lightgrey
 
-}
 .card {
-    border: 3px  solid black;
+    border: 1px  solid black;
+    box-shadow: 1px 3px  black;
+    
 }
 .card.mb-3 {
-    justify-content: center;
+    background-color: lightslategray;
     align-items: center;
-    margin:5px;
-    padding: 5px;
-    background: lightslategray;
+    margin:0px;
+    padding: 0px;
     
+    
+}
+.card-body {
+    background-color: lightslategray;
 }
