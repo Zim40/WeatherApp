@@ -19,8 +19,7 @@ function getWeather (){
     .then(response => response.json())
     .then(data=> {
         console.log(data);
-        var lat = data.coord.lat;
-        var lon = data.coord.lon
+      
         
         // Adds City Name to the card title for current weather 
       let currentCityWeather = document.querySelector('.card-title');
@@ -76,8 +75,10 @@ function getWeather (){
               let date = new Date(current * 1000);
               let formattedDate =date.toLocaleDateString();
                 cardDates[i].textContent = formattedDate;
-                console.log(data.list.dt_txt);
+                console.log(data.list[i].dt_txt);
             }
+            
+          
             
             
             
@@ -107,6 +108,18 @@ function getWeather (){
             console.log(Temp);
             for(var h = 0; h < dailyTemp.length; h ++) {
               dailyTemp[h].innerHTML = "Max Temp: " + Temp[Object.keys(Temp)[h]];
+            }
+            const minTemp = {
+              min1: data.list[0].main.temp_min,
+              min2: data.list[8].main.temp_min,
+              min3: data.list[16].main.temp_min,
+              min4: data.list[24].main.temp_min,
+              min5: data.list[32].main.temp_min,
+            } 
+            console.log(minTemp);
+            const min = document.querySelectorAll('.minTemp');
+            for(var j =0; j < min.length; j ++) {
+              min[j].innerHTML = "Min Temp: " + minTemp[Object.keys(minTemp)[j]];
             }
 
             

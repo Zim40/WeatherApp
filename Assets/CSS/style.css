@@ -1,5 +1,5 @@
 html, body{
-    background-image: linear-gradient(to right bottom, #e5cdc1, #e6cabe, #e7c7bc, #e8c3ba, #e9c0b8);
+    
     overflow: hidden;
 }
 div#weatherCards {
