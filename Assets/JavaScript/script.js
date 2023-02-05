@@ -10,6 +10,7 @@ forecastCity = "";
 
 getWeather();
 fiveDayForecast();
+
 function getWeather (){
   submit.addEventListener('click', ()=>{
     let city = cityName.value;
@@ -21,19 +22,19 @@ function getWeather (){
         console.log(data);
       
         
-        // Adds City Name to the card title for current weather 
+        // Adds City Name to the card title for current weather ----------------------
       let currentCityWeather = document.querySelector('.card-title');
       currentCityWeather.textContent = data.name;
       // Adds current temp 
       let currentTemp = document.querySelector('.tempNow');
       currentTemp.textContent = 'Current Temp: ' + data.main.temp;
-      // Adds weather icon for current temp 
+      // Adds weather icon for current temp -----------------------
       let weatherIcon = document.getElementById('currentImg');
       let icon = data.weather[0].icon;
       
       let iconUrl = "https://openweathermap.org/img/wn/" + icon + "@2x.png"
       weatherIcon.src = iconUrl;
-      // Add datas to cards
+      // Add datas to cards-------------------
       let currentDt = data.dt;
       let date = new Date(currentDt*1000);
       let formattedDate = date.toLocaleDateString();
@@ -57,7 +58,7 @@ function getWeather (){
           .then(response => response.json())
           .then (data => {
             console.log(data);
-            // Object holding day/time Unix stamps
+            // Object holding day/time Unix stamps---------------
             const Days = {
               day1: data.list[0].dt,
               day2: data.list[8].dt,
@@ -68,7 +69,7 @@ function getWeather (){
             }
            
            
-            // Loop to add data to each cardDates, may change to display date and time 
+            // Loop to add data to each cardDates, may change to display date and time ------
             const cardDates = document.querySelectorAll('.cardDate');
             for (var i = 0; i < cardDates.length; i++){
               const current = Days[Object.keys(Days)[i]];
@@ -94,7 +95,7 @@ function getWeather (){
             cardDates[j].append(forecastIcon);
             }
 
-            // Object and loop to display max temp for the day 
+            // Object and loop to display max temp for the day ---------
               console.log(data.list[0].main.temp_max)
             const dailyTemp = document.querySelectorAll('.dailyTemp');
             const Temp = {
@@ -109,6 +110,7 @@ function getWeather (){
             for(var h = 0; h < dailyTemp.length; h ++) {
               dailyTemp[h].innerHTML = "Max Temp: " + Temp[Object.keys(Temp)[h]];
             }
+
             const minTemp = {
               min1: data.list[0].main.temp_min,
               min2: data.list[8].main.temp_min,
@@ -120,7 +122,26 @@ function getWeather (){
             const min = document.querySelectorAll('.minTemp');
             for(var j =0; j < min.length; j ++) {
               min[j].innerHTML = "Min Temp: " + minTemp[Object.keys(minTemp)[j]];
-            }
+            } 
+          // Local storage ---------------------------------------
+          
+            var city = cityName.value;
+            for (var k = 0; k <cityName.length; k ++){
+            var localBtn = document.createElement('input');
+            localBtn.classList.add('btn', 'btn-primary');
+            localBtn.setAttribute('id', 'savedLocation');
+            localBtn.setAttribute('value', city);
+            localBtn.setAttribute('value', 'Submit')
+            localBtn.setAttribute('type', 'button')
+            localStorage.setItem(city, city);
+          }  
+            submit.append(localBtn);
+
+            
+                 
+             
+              
+            
 
             
             
@@ -128,5 +149,8 @@ function getWeather (){
             
 
           
-        }
-        )})}}
+          }
+          )
+        })
+  } 
+}
